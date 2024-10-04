@@ -11,9 +11,9 @@ on:
   #
   # Deploys the microservice on push to the main branch of this code repository.
   #
-  #push: 
-    #branches:
-    #  - main
+  push: 
+    branches:
+      - main
 
   workflow_dispatch: 
 
