@@ -1,0 +1,79 @@
+# Your Solution
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task8-b
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: task8-b
+  template:
+    metadata:
+      labels:
+        app: task8-b
+    spec:
+      containers: 
+      - name: task8-b
+        image: task8.azurecr.io/task8-b:1
+        ports:
+        - containerPort: 9494
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://task8_user:dbmhcpEwzl3E0JqUzcTLXwMZJEx3prPL@dpg-crvhnf23esus7391bb80-a.oregon-postgres.render.com/task8?sslmode=require"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: task8-b
+spec:
+  selector:
+    app: task8-b
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 9494
+      targetPort: 9494
+
+
+####
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task8-i
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: task8-i
+  template:
+    metadata:
+      labels:
+        app: task8-i
+    spec:
+      containers: 
+      - name: task8-i
+        image: task8.azurecr.io/task8-i:1
+        ports:
+        - containerPort: 9898
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://task8_user:dbmhcpEwzl3E0JqUzcTLXwMZJEx3prPL@dpg-crvhnf23esus7391bb80-a.oregon-postgres.render.com/task8?sslmode=require"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: task8-i
+spec:
+  selector:
+    app: task8-i
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 9898
+      targetPort: 9898
